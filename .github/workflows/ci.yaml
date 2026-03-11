@@ -1,0 +1,17 @@
+name: Acessando variáveis
+on: [push, pull_request]
+
+env:
+  GLOBAL_VAR: production
+
+jobs:
+  show-info:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: internal-var
+    steps:
+      - run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "SO do Runner: ${{ runner.os }}"
+          echo "Global: $GLOBAL_VAR / Job: $JOB_VAR"

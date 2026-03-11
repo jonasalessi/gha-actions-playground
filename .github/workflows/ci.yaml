@@ -10,10 +10,12 @@ jobs:
     env:
       JOB_VAR: internal-var
     steps:
-      - uses: actions/checkout@v4
       - run: |
-          ls
-          echo "Evento: ${{ github.event_name }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "SO do Runner: ${{ runner.os }}"
-          echo "Global: $GLOBAL_VAR / Job: $JOB_VAR"
+          echo "On ${{ github.event_name }}"
+
+  show-pr:
+    if: ${{github.event_name == 'pull_request'}}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "running on PR"

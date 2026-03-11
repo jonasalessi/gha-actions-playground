@@ -10,6 +10,7 @@ jobs:
     env:
       JOB_VAR: internal-var
     steps:
+      - uses: actions/checkout@v4
       - run: |
           ls
           echo "Evento: ${{ github.event_name }}"

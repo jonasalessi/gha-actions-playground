@@ -1,19 +1,29 @@
-name: Acessando variáveis
-on: [push, pull_request]
+name: CI
 
-env:
-  GLOBAL_VAR: production
+on:
+  push:
+    branches: [ "**" ]
 
 jobs:
-  show-info:
+  test:
     runs-on: ubuntu-latest
-    env:
-      JOB_VAR: internal-var
+    
+    defaults:
+      run:
+        working-directory: ./api
+
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          ls
-          echo "Evento: ${{ github.event_name }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "SO do Runner: ${{ runner.os }}"
-          echo "Global: $GLOBAL_VAR / Job: $JOB_VAR"
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run tests
+      run: ./gradlew test
